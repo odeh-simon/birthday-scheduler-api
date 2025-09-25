@@ -162,12 +162,11 @@ The birthday emails include:
 
 ## Logging
 
-The application uses Winston for comprehensive logging:
+The application uses Winston for comprehensive console logging:
 
-- **Console**: Development logs with colors
-- **Files**: 
-  - `src/logs/combined.log` - All logs
-  - `src/logs/error.log` - Error logs only
+- **Console**: All logs with colors and timestamps
+- **Production**: Info level and above
+- **Development**: Debug level and above
 
 Log levels include:
 - API requests and responses
