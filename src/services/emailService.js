@@ -87,12 +87,8 @@ const generateBirthdayEmailTemplate = (username) => {
                 <p>Have an amazing birthday celebration! 🎈</p>
             </div>
             
-            <img src="https://via.placeholder.com/400x300/ff6b6b/ffffff?text=Happy+Birthday+${encodeURIComponent(username)}!" 
-                 alt="Birthday Celebration" 
-                 class="birthday-image">
-            
             <div class="footer">
-                <p>🎈 Best wishes from the Birthday Wisher Team! 🎈</p>
+                <p>🎈 Best wishes from Us! 🎈</p>
                 <p>This email was sent automatically to celebrate your special day.</p>
             </div>
         </div>
@@ -114,7 +110,7 @@ const sendBirthdayEmail = async (email, username) => {
       to: email,
       subject: `🎉 Happy Birthday, ${username}! 🎂`,
       html: generateBirthdayEmailTemplate(username),
-      text: `Happy Birthday, ${username}!\n\nWishing you a fantastic day filled with joy, laughter, and wonderful memories!\n\nBest wishes from the Birthday Wisher Team!`
+      text: `Happy Birthday, ${username}!\n\nWishing you a fantastic day filled with joy, laughter, and wonderful memories!\n\nBest wishes!`
     };
 
     const info = await transporter.sendMail(mailOptions);
