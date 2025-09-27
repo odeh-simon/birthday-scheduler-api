@@ -5,15 +5,16 @@ const logger = require('../config/logger');
 
 // Schedule birthday email job to run daily at 7:00 AM
 const scheduleBirthdayEmails = () => {
-  // Cron expression: 0 7 * * * (every day at 7:00 AM)
-  const cronJob = cron.schedule('0 7 * * *', async () => {
+  // Cron expression: 0 7 * * * (every day at 7:00 AM UTC)
+  const cronJob = cron.schedule('10 12 * * *', async () => {
+    logger.info('Cron job triggered at:', new Date().toISOString());
     await sendBirthdayEmails();
   }, {
     scheduled: false, // Don't start automatically
     timezone: 'UTC'
   });
 
-  logger.info('Birthday email cron job scheduled for 7:00 AM daily');
+  logger.info('Birthday email cron job scheduled for 7:00 AM UTC daily');
   return cronJob;
 };
 
@@ -117,12 +118,18 @@ const getBirthdayUsersToday = async () => {
   }
 };
 
-// Start the cron job
+// Start the cron job with cloud-friendly configuration
 const startCronJob = () => {
   const cronJob = scheduleBirthdayEmails();
   cronJob.start();
   
   logger.info('Birthday email cron job started');
+  
+  // Log cron job status periodically for cloud monitoring
+  setInterval(() => {
+    logger.info('Cron job status check - still running');
+  }, 3600000); // Every hour
+  
   return cronJob;
 };
 

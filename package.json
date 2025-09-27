@@ -7,7 +7,9 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "test:cron": "node test-cron.js",
+    "demo": "node test-demo.js"
   },
   "keywords": [],
   "author": "Odeh Simon",

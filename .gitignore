@@ -52,3 +52,5 @@ jest-results.xml
 tests/
 test-demo.js
 IMPLEMENTATION_SUMMARY.md
+CRON_SETUP_GUIDE.md
+test-cron.js
