@@ -3,10 +3,10 @@ const User = require('../models/User');
 const { sendBirthdayEmail } = require('./emailService');
 const logger = require('../config/logger');
 
-// Schedule birthday email job to run daily at 7:00 AM
+// Schedule birthday email job to run daily at 3:30 PM UTC (4:30 PM WAT)
 const scheduleBirthdayEmails = () => {
-  // Cron expression: 0 7 * * * (every day at 7:00 AM UTC)
-  const cronJob = cron.schedule('10 12 * * *', async () => {
+  // Cron expression: 30 15 * * * (every day at 3:30 PM UTC)
+  const cronJob = cron.schedule('30 15 * * *', async () => {
     logger.info('Cron job triggered at:', new Date().toISOString());
     await sendBirthdayEmails();
   }, {
@@ -14,7 +14,7 @@ const scheduleBirthdayEmails = () => {
     timezone: 'UTC'
   });
 
-  logger.info('Birthday email cron job scheduled for 7:00 AM UTC daily');
+  logger.info('Birthday email cron job scheduled for 3:30 PM UTC (4:30 PM WAT) daily');
   return cronJob;
 };
 

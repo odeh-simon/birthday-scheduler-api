@@ -1,16 +1,8 @@
-const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
 const logger = require('../config/logger');
 
-// Create transporter for Gmail
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASS
-    }
-  });
-};
+// Initialize SendGrid
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // Generate HTML email template
 const generateBirthdayEmailTemplate = (username) => {
@@ -100,30 +92,28 @@ const generateBirthdayEmailTemplate = (username) => {
 // Send birthday email
 const sendBirthdayEmail = async (email, username) => {
   try {
-    const transporter = createTransporter();
-    
-    const mailOptions = {
-      from: {
-        name: 'Birthday Wisher',
-        address: process.env.GMAIL_USER
-      },
+    const msg = {
       to: email,
+      from: {
+        email: process.env.SENDGRID_FROM_EMAIL,
+        name: 'Birthday Wisher'
+      },
       subject: `🎉 Happy Birthday, ${username}! 🎂`,
       html: generateBirthdayEmailTemplate(username),
       text: `Happy Birthday, ${username}!\n\nWishing you a fantastic day filled with joy, laughter, and wonderful memories!\n\nBest wishes!`
     };
 
-    const info = await transporter.sendMail(mailOptions);
+    const response = await sgMail.send(msg);
     
     logger.info('Birthday email sent successfully', {
       to: email,
       username: username,
-      messageId: info.messageId
+      messageId: response[0].headers['x-message-id']
     });
 
     return {
       success: true,
-      messageId: info.messageId,
+      messageId: response[0].headers['x-message-id'],
       to: email,
       username: username
     };
@@ -142,13 +132,22 @@ const sendBirthdayEmail = async (email, username) => {
 // Test email configuration
 const testEmailConfiguration = async () => {
   try {
-    const transporter = createTransporter();
-    await transporter.verify();
+    // Test SendGrid API key by sending a test email to ourselves
+    const testMsg = {
+      to: process.env.SENDGRID_FROM_EMAIL,
+      from: {
+        email: process.env.SENDGRID_FROM_EMAIL,
+        name: 'Birthday Wisher Test'
+      },
+      subject: 'SendGrid Configuration Test',
+      text: 'This is a test email to verify SendGrid configuration.'
+    };
     
-    logger.info('Email configuration is valid');
+    await sgMail.send(testMsg);
+    logger.info('SendGrid configuration is valid');
     return true;
   } catch (error) {
-    logger.error('Email configuration test failed:', error);
+    logger.error('SendGrid configuration test failed:', error);
     return false;
   }
 };

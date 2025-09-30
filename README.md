@@ -18,7 +18,7 @@ A Node.js/Express backend application that automates sending birthday emails to 
 - **MongoDB** with Mongoose ODM
 - **Winston** for logging
 - **Jest** for testing
-- **Nodemailer** for email sending
+- **SendGrid** for email sending
 - **Node-cron** for scheduling
 - **Express-validator** for input validation
 
@@ -26,7 +26,7 @@ A Node.js/Express backend application that automates sending birthday emails to 
 
 - Node.js (v14 or higher)
 - MongoDB (local or cloud instance)
-- Gmail account with App Password
+- SendGrid account with API key
 
 ## Installation
 
@@ -44,15 +44,17 @@ npm install
 ```env
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/birthday-wisher
-GMAIL_USER=your-email@gmail.com
-GMAIL_PASS=your-app-password
+SENDGRID_API_KEY=your_sendgrid_api_key_here
+SENDGRID_FROM_EMAIL=your_verified_sender_email@yourdomain.com
 NODE_ENV=development
 ```
 
-4. Set up Gmail App Password:
-   - Enable 2-factor authentication on your Gmail account
-   - Generate an App Password for this application
-   - Use the App Password in the `GMAIL_PASS` environment variable
+4. Set up SendGrid:
+   - Create a SendGrid account at https://sendgrid.com
+   - Generate an API key in your SendGrid dashboard
+   - Verify your sender email address in SendGrid
+   - Use the API key in the `SENDGRID_API_KEY` environment variable
+   - Use your verified email in the `SENDGRID_FROM_EMAIL` environment variable
 
 ## Usage
 

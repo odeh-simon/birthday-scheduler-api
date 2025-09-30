@@ -2,8 +2,8 @@ name: Birthday Email Cron Job
 
 on:
   schedule:
-    # Run daily at 3:15 PM UTC
-    - cron: '15 15 * * *'
+    # Run daily at 3:30 PM UTC (4:30 PM WAT)
+    - cron: '30 15 * * *'
   workflow_dispatch: # Allow manual trigger
 
 jobs:
